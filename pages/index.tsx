@@ -1,7 +1,14 @@
 import type { GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
+import { IExhibition } from '../@types/generated/contentful'
+import { createClient } from 'contentful'
+import Image from 'next/image'
 
-const Home: NextPage = () => {
+type Props = {
+  exhibitions?: IExhibition[]
+}
+
+const Home: NextPage<Props> = ({ exhibitions }: Props) => {
   return (
     <div>
       <Head>
@@ -10,7 +17,26 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main></main>
+      <main>
+        <ul>
+          {exhibitions?.map((exhibition) => {
+            return (
+              <li key={exhibition.sys.id}>
+                <h2>{exhibition.fields.name}</h2>
+                {exhibition.fields.image?.map((image) => (
+                  <Image
+                    key={image.sys.id}
+                    src={`https:${image.fields.file.url}`}
+                    alt={image.fields.title}
+                    width={image.fields.file.details.image?.width}
+                    height={image.fields.file.details.image?.height}
+                  />
+                ))}
+              </li>
+            )
+          })}
+        </ul>
+      </main>
 
       <footer></footer>
     </div>
@@ -18,33 +44,16 @@ const Home: NextPage = () => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const query = `
-  query {
-    exhibitionCollection {
-      items {
-        name
-        venue
-        date
-      }
-    }
-  }
-  `
+  const client = createClient({
+    space: process.env.CONTENTFUL_SPACE_ID || '',
+    accessToken: process.env.CONTENTFUL_ACCESS_TOKEN || '',
+  })
 
-  const data = await fetch(
-    `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.CONTENTFUL_ACCESS_TOKEN}`,
-      },
-      body: JSON.stringify({ query }),
-    }
-  ).then((response) => response.json())
+  const exhibitionCollection = await client.getEntries<IExhibition>()
 
   return {
     props: {
-      data: data,
+      exhibitions: exhibitionCollection.items,
     },
   }
 }

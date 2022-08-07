@@ -19,6 +19,7 @@
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",
     "autoprefixer": "^10.4.8",
+    "contentful": "^9.1.33",
     "contentful-management": "^10.10.0",
     "contentful-typescript-codegen": "^3.2.3",
     "dotenv": "^16.0.1",
