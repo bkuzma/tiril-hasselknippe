@@ -34,21 +34,12 @@ export interface IExhibition extends Entry<IExhibitionFields> {
   }
 }
 
-export interface IImageFields {
-  /** Title */
-  title: string
-
-  /** Photo */
-  photo?: Asset | undefined
-
-  /** Image caption */
-  imageCaption?: string | undefined
-
-  /** Image credits */
-  imageCredits?: string | undefined
+export interface IExhibitionListFields {
+  /** Exhibitions */
+  exhibitions?: Entry<{ [fieldId: string]: unknown }>[] | undefined
 }
 
-export interface IImage extends Entry<IImageFields> {
+export interface IExhibitionList extends Entry<IExhibitionListFields> {
   sys: {
     id: string
     type: string
@@ -57,7 +48,7 @@ export interface IImage extends Entry<IImageFields> {
     locale: string
     contentType: {
       sys: {
-        id: 'image'
+        id: 'exhibitionList'
         linkType: 'ContentType'
         type: 'Link'
       }
@@ -65,7 +56,7 @@ export interface IImage extends Entry<IImageFields> {
   }
 }
 
-export type CONTENT_TYPE = 'exhibition' | 'image'
+export type CONTENT_TYPE = 'exhibition' | 'exhibitionList'
 
 export type LOCALE_CODE = 'en-US'
 
