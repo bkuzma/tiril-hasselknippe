@@ -17,25 +17,28 @@ const Home: NextPage<Props> = ({ exhibitions }: Props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        <ul>
-          {exhibitions?.map((exhibition) => {
-            return (
-              <li key={exhibition.sys.id}>
-                <h2>{exhibition.fields.name}</h2>
-                {exhibition.fields.image?.map((image) => (
+      <main className="my-36">
+        {exhibitions?.map((exhibition) => {
+          return (
+            <ul
+              key={exhibition.sys.id}
+              className="flex flex-col items-center space-y-36"
+            >
+              {exhibition.fields.image?.map((image) => (
+                <li className="" key={image.sys.id}>
                   <Image
-                    key={image.sys.id}
                     src={`https:${image.fields.file.url}`}
                     alt={image.fields.title}
                     width={image.fields.file.details.image?.width}
                     height={image.fields.file.details.image?.height}
+                    blurDataURL={`https:${image.fields.file.url}?w=10`}
+                    placeholder="blur"
                   />
-                ))}
-              </li>
-            )
-          })}
-        </ul>
+                </li>
+              ))}
+            </ul>
+          )
+        })}
       </main>
 
       <footer></footer>
