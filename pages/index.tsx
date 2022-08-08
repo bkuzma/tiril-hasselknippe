@@ -17,12 +17,12 @@ const Home: NextPage<Props> = ({ exhibitions }: Props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="my-36">
+      <main className="m-4 md:my-12 md:mx-8 lg:my-36">
         {exhibitions?.map((exhibition) => {
           return (
             <ul
               key={exhibition.sys.id}
-              className="flex flex-col items-center space-y-36"
+              className="flex flex-col items-center space-y-12 md:space-y-36"
             >
               {exhibition.fields.image?.map((image) => (
                 <li className="" key={image.sys.id}>
