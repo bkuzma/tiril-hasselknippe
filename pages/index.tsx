@@ -52,7 +52,10 @@ export const getStaticProps: GetStaticProps = async () => {
     accessToken: process.env.CONTENTFUL_ACCESS_TOKEN || '',
   })
 
-  const exhibitionCollection = await client.getEntries<IExhibition>()
+  const exhibitionCollection = await client.getEntries<IExhibition>({
+    content_type: 'exhibition',
+    order: '-fields.date',
+  })
 
   return {
     props: {
